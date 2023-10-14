@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  database:
+    image: postgres:latest
+    environment:  
+      POSTGRES_PASSWORD: dibimbing.id
+      POSTGRES_DB: dibimbing
+      POSTGRES_USER: dibimbing-user
+    ports:    
+      - 5432:5432
+    networks:
+      - web-service
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dibimbing-user -d dibimbing"]
+      interval: 5s
+      timeout: 5s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - web-service
+
+  
+networks:
+  web-service:
+    driver: bridge

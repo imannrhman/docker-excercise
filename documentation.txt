@@ -1,0 +1,16 @@
+﻿Dockerfile = digunakan untuk menginstall python environment dengan library tambahan yang sudah dituliskan pada requirements.txt yang nantinya digunakan untuk menjalankan program python yang sudah ditulis pada data_ingestion_script.py
+
+
+data_ingestion_script.py = digunakan untuk membuat program yang akan memindahkan data dari api berita indonesia ke database Postgres yang ada di program kita. Program pertama kali akan menginisialisasi database dengan library sqlalchemy. Setelah itu melakukan request GET pada api “https://api-berita-indonesia.vercel.app/cnn/terbaru” yang dikhususkan ke berita CNN saja. Lalu memastikan untuk membuat table baru bernama “news” dengan SQL Alchemy yang dilanjutkan dengan menambahkan data pada api yang datanya sudah disesuaikan ke database Postgre. 
+
+
+requirement.txt untuk = list dari library yang digunakan pada data_ingestion_script.py untuk kebutuhan manage database dan request api. 
+
+
+docker-compose untuk apa = konfigurasi docker dengan menuliskan service apa saja yang akan digunakan seperti pada program yakni service database dan service web. Tiap service menuliskan image apa yang akan digunakan terkecuali pada service web yang menggunakan Dockerfile untuk get image yang sudah dicustom. Tidak lupa menambahkan network-bridge untuk menyambungkan antara service web dan database, tidak lupa menambahkan depend_on pada web dengan condition service_healty untuk menunggu inisialisasi service database agar tidak bertabrakan dengan service web
+
+
+Step 1. Pastikan Docker Menyala 
+Step 2. Buka terminal atau command line dan tulis docker-compose up 
+Step 3. Tunggu Proses Inisialisasi Berjalan
+Step 4. Jika sudah maka hasilnya akan ditampilkan pada service web
